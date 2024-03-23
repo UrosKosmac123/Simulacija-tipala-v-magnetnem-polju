@@ -1,24 +1,28 @@
-function plotR(h, H, L, N, B0, r0, lambda, epsilon, k, a)
+function plotR(h, H, L, N, B0, r0, lambda, epsilon, n, a)
     
-    x = linspace(-a,a,k);
-    f1 =@(x) R(x, h(1), H(1), L(1), N(1), B0, r0, lambda, epsilon, k);
+    % Izriše graf upornosti v odvisnosti od premika x, kjer x ∈ (-a, a)
+    
+    % x0 - horizontalni začetek žice.
+    % h - dvig nad x-osjo.
+    % H - vertikalna dolžina žice.
+    % L - horizontalna dolžina žice. 
+    % N - št. prepogibanj.
+    % B0 - osnovna jakost magnetnega polja
+    % lamda - parameter.
+    % epsilon - natančnost polja.
+    % n - št. točk s katerimi aproksimiramo žico.
+    
+    x = linspace(-a,a,n);
+    f1 =@(x) R(x, h, H, L, N, B0, r0, lambda, epsilon, n);
 
     
-    y1 = zeros(k, 1);
-    for i=1:k
+    y1 = zeros(n, 1);
+    for i=1:n
         y1(i) = f1(x(i));
     end
 
-    f2 =@(x) R(x, h(2), H(2), L(2), N(2), B0, r0, lambda, epsilon, k);
-
-    y2 = zeros(k, 1);
-    for i=1:k
-        y2(i) = f2(x(i));
-    end
-
     hold on
-    plot(x, y1)
-    plot(x, y2)
+       scatter(x, y1)
     hold off
     
 end

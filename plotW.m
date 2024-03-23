@@ -1,10 +1,21 @@
-function plotW(x0, h, H, L, N, k)
+function plotW(x0, h, H, L, N, n)
     
-    [vline_seg, hline_seg_lower, hline_seg_upper, X] = current_den(x0, h, H, L, N, k);
+    % Izriše žico v ravnini.
     
-    x = L/(N-1);
-    k1 = floor((N*H/(N*H + L))*k);
-    k2 = floor((L/(N*H + L))*k);
+    % x0 - horizontalni začetek žice.
+    % h - dvig nad x-osjo.
+    % H - vertikalna dolžina žice.
+    % L - horizontalna dolžina žice. 
+    % N - št. prepogibanj.
+    % n - št. točk s katerimi aproksimiramo žico.
+    
+    [vline_seg, hline_seg_lower, hline_seg_upper, X] = current_den(x0, h, H, L, N, n);
+    
+    x = L/(N-1);    % dolžina kratkega dela prepognjene žice.
+    
+    k1 = floor((N*H/(N*H + L))*n);   % relativen delež točk na vertikalnih dolžinah
+    k2 = floor((L/(N*H + L))*n);     % relativen delež točk na horizontalnih dolžinah   
+    
     y_h = h.*ones(1, (floor(N/2)));
     
     if mod(N,2) == 0
@@ -13,8 +24,8 @@ function plotW(x0, h, H, L, N, k)
         y_Hh = (H+h).*ones(1, floor(N/2));
     end
     
-    figure; % Create a new figure
-    hold on; % Keep the current plot
+    figure;
+    hold on;
     
     for i = 1:k2
         scatter(hline_seg_upper(i, :), y_Hh', "filled");
@@ -24,9 +35,10 @@ function plotW(x0, h, H, L, N, k)
         scatter(hline_seg_lower(i, :), y_h', "filled");
     end
     
-    for i = 1:length(vline_seg)
+    for i = 1:k1
         scatter(X, vline_seg(i,:), "filled");
     end
+    
     
     hold off; % Release the hold
 

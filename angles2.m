@@ -1,6 +1,21 @@
-function [cosphi_v, cosphi_l, cosphi_u] = angles2(x0, h, H, L, N, B0, lambda, epsilon, k)
+function [cosphi_v, cosphi_l, cosphi_u] = angles2(x0, h, H, L, N, B0, lambda, epsilon, n)
     
-    [v, h_l, h_u, X] = current_den(x0, h, H, L, N, k);
+    % Računa isto kot angles, vendar je bistveno hitrejše, saj naredi bistveno manj           
+    % izračunov, kjer smo izkoristili dejstvo, da je kot med B in j neodvisen of druge
+    % komponente (y) zato je kot na vertikalnih segmentih isti za vsak y.
+    
+    % x0 - horizontalni začetek žice.
+    % h - dvig nad x-osjo.
+    % H - vertikalna dolžina žice.
+    % L - horizontalna dolžina žice. 
+    % N - št. prepogibanj.
+    % B0 - osnovna jakost magnetnega polja
+    % lamda - parameter.
+    % epsilon - natančnost polja.
+    % n - št. točk s katerimi aproksimiramo žico.
+    
+    
+    [v, h_l, h_u, X] = current_den(x0, h, H, L, N, n);
    
     x = L/(N-1);
     

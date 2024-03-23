@@ -1,9 +1,23 @@
-function Res = R(x0, h, H, L, N, B0, r0, lambda, epsilon, k)
+function Res = R(x0, h, H, L, N, B0, r0, lambda, epsilon, n)
+    
+    % Izračuna upornost ∫R(x)dl preko trapezne metode in uporabimo delilne točke
+    % delilne točke iz datoteke iz datoteke current_den
+    
+    % x0 - horizontalni začetek žice.
+    % h - dvig nad x-osjo.
+    % H - vertikalna dolžina žice.
+    % L - horizontalna dolžina žice. 
+    % N - št. prepogibanj.
+    % B0 - osnovna jakost magnetnega polja
+    % r0 - osnovna upornost žice
+    % lamda - parameter.
+    % epsilon - natančnost polja.
+    % n - št. točk s katerimi aproksimiramo žico.
     
     f =@(x) r0*(1 + 0.02*x.^2);
-    [cosphi_v, cosphi_l, cosphi_u] = angles2(x0, h, H, L, N, B0, lambda, epsilon, k);
+    [cosphi_v, cosphi_l, cosphi_u] = angles2(x0, h, H, L, N, B0, lambda, epsilon, n);
     
-    [v, h_l, h_u, X] = current_den(x0, h, H, L, N, k);
+    [v, h_l, h_u, X] = current_den(x0, h, H, L, N, n);
     
     r_v = f(cosphi_v);
     r_l = f(cosphi_l);

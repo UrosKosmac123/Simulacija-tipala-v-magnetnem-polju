@@ -1,8 +1,21 @@
-function [cosphi_v, cosphi_l, cosphi_u] = angles(x0, h, H, L, N, B0, lambda, epsilon, k)
-    [v, h_l, h_u, X] = current_den(x0, h, H, L, N, k);
+function [cosphi_v, cosphi_l, cosphi_u] = angles(x0, h, H, L, N, B0, lambda, epsilon, n)
+    
+    % Izračun kotov med tokovno gostoto j in vektorjem magnetnega polja B(x,y)
+    % kjer so točke (x,y) točke iz segmentov žice, dobljene iz funckije current_den.
+    
+    % x0 - horizontalni začetek žice.
+    % h - dvig nad x-osjo.
+    % H - vertikalna dolžina žice.
+    % L - horizontalna dolžina žice. 
+    % N - št. prepogibanj.
+    % B0 - osnovna jakost magnetnega polja
+    % lamda - parameter.
+    % epsilon - natančnost polja.
+    % n - št. točk s katerimi aproksimiramo žico.
+    
+    [v, h_l, h_u, X] = current_den(x0, h, H, L, N, n);
     
     x = L/(N-1);
-    k = floor(1000*x/H);
     
     cosphi_v = zeros(length(v), N);
     cosphi_l = zeros(length(h_l), floor(N/2));
