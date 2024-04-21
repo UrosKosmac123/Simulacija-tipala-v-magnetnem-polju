@@ -1,4 +1,4 @@
-function plotR(h, H, L, N, B0, r0, lambda, epsilon, n, a)
+function plotR(h, H, L, N, B0, r0, lambda, epsilon, n, a, c)
     
     % Izriše graf upornosti v odvisnosti od premika x, kjer x ∈ (-a, a)
     
@@ -22,7 +22,7 @@ function plotR(h, H, L, N, B0, r0, lambda, epsilon, n, a)
     end
 
     hold on
-       scatter(x, y1)
+       scatter(x, y1, c)
     hold off
     
 end

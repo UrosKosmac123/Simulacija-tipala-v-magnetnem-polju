@@ -1,6 +1,6 @@
 function [vline_seg, hline_seg_lower, hline_seg_upper, X] = current_den(x0, h, H, L, N, n)
     
-    % Za žico z danimi podatki razdeli žico na točke oz. na manjše delčke dolžine 
+    % Za žico z danimi podatki, funkcija razdeli žico na točke oz. na manjše delčke 		dolžine 
     % ∆l << 1.
     
     % x0 - horizontalni začetek žice.
