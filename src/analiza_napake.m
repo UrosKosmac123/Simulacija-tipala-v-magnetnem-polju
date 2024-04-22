@@ -11,11 +11,13 @@ lambda = 2;
 epsilon = 1e-7;
 n = 29;
 
+% funkcija, ki jo analiziramo, ter izraz z abolutno vrednostjo
 f =@(y) exp(-2*pi.*y./lambda);
 h_app =@(y, n) abs(f(y) - (f(y)).^n);
 
 int = linspace(h, h + H);
 
+% poiščemo minimum funkcije -h_app, kar je isto kot iskati maksimum funkcije h_app
 max_y = fminbnd(@(y)-h_app(y, n), h, H+h);
 h_app(max_y, n)
 
@@ -24,4 +26,5 @@ for i = 1:((n-1)/2)
     plot(int, h_app(int, 2*i + 1))
 end
 
+% povprečje
 avg = (1./H).*integral(@(y) h_app(y, n), h, h+H) 
