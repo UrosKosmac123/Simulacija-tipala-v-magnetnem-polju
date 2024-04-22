@@ -15,7 +15,9 @@ a = 4;
 %plotW(0, h, H, L, N, n)
 
 pL = linspace(0.1, 1, 100);
-   
+
+% primeri za različne dolžine
+
 %plotR(h, H, 0.1, N, B0, r0, lambda, epsilon, n, a)
 %plotR(h, H, 0.3, N, B0, r0, lambda, epsilon, n, a)
 %plotR(h, H, 0.4, N, B0, r0, lambda, epsilon, n, a)
@@ -24,15 +26,20 @@ pL = linspace(0.1, 1, 100);
 %plotR(h, H, 0.8, N, B0, r0, lambda, epsilon, n, a)
 %plotR(h, H, 0.9, N, B0, r0, lambda, epsilon, n, a)
 %plotR(h, H, 1, N, B0, r0, lambda, epsilon, n, a)
+
+% tic toc meri koliko casa porabi izris (in izracun) ploR
 tic
+% rešitvena primera
 
 plotR(h, H, L, N, B0, r0, lambda, epsilon, n, a, "blue")
 plotR(h, H, L2, N, B0, r0, lambda, epsilon, n, a, "red")
+
 toc
 
 legend("L = 0.2", "L = 0.5")
 
 % -------------------------------------------------
+% primeri za različne visine H
 
 %plotR(h, 0.1, L2, N, B0, r0, lambda, epsilon, n, a)
 %plotR(h, 0.2, L2, N, B0, r0, lambda, epsilon, n, a)
@@ -42,26 +49,11 @@ legend("L = 0.2", "L = 0.5")
 %plotR(h, 0.6, L2, N, B0, r0, lambda, epsilon, n, a)
 %plotR(h, 0.7, L2, N, B0, r0, lambda, epsilon, n, a)
 %plotR(h, 0.8, L2, N, B0, r0, lambda, epsilon, n, a)
-
-
-%plotR(h, 0.9, L2, N, B0, r0, lambda, epsilon, n, a)
-%plotR(h, 1, L2, N, B0, r0, lambda, epsilon, n, a)
-
-% --------------------------------------------------
-
-%plotR(h, 0.1, L2, N, B0, r0, lambda, epsilon, n, a)
-%plotR(h, 0.2, L2, N, B0, r0, lambda, epsilon, n, a)
-%plotR(h, 0.3, L2, N, B0, r0, lambda, epsilon, n, a)
-%plotR(h, 0.4, L2, N, B0, r0, lambda, epsilon, n, a)    
-%plotR(h, H, L2, N, B0, r0, lambda, epsilon, n, a)
-%plotR(h, 0.6, L2, N, B0, r0, lambda, epsilon, n, a)
-%plotR(h, 0.7, L2, N, B0, r0, lambda, epsilon, n, a)
-%plotR(h, 0.8, L2, N, B0, r0, lambda, epsilon, n, a)
-
 %plotR(h, 0.9, L2, N, B0, r0, lambda, epsilon, n, a)
 %plotR(h, 1, L2, N, B0, r0, lambda, epsilon, n, a)
 
 % -------------------------------------------------
+% primeri za razlicno stevilo prepogibanj
 
 %plotR(h, H, L2, 5, B0, r0, lambda, epsilon, n, a)
 %plotR(h, H, L2, 6, B0, r0, lambda, epsilon, n, a)
