@@ -26,13 +26,13 @@ kjer je $P$ - parametrizacija žice in $dl$ - zelo majhen (infitezimalen) del ž
 
 Če izrišemo, še za $L = 0.5$
 
-![image](https://github.com/UrosKosmac123/Simulacija-tipala-v-magnetnem-polju/assets/64798766/26fc093a-919d-4fa8-9af5-7ce86535f085)
+![IMG_0710](https://github.com/UrosKosmac123/Simulacija-tipala-v-magnetnem-polju/assets/64798766/f3701f21-0720-42cf-8299-1fed528dc060)
 
-vidimo, da je bolje uporabiti krajšo žico.
+vidimo, da je bolje uporabiti krajšo žico. Testni primeri so napisani v datoteki primeri.m ( + še nekaj dodatnih primerov).
 
 
 
-Opomba: Napisano imam tudi funkcijo angles2.m. ki naredi isto kot funkcija angles.m, le bistveno hitreje saj ne potrebuje delati podvojenih izračunov. Temelji pa na predpostavki, da ima magnetno polje $B$ ločljive spremenljivke tj. $B(x,y) = (f_1(x)\cdot g_1(y), f_2(x)\cdot g_2(y))$, za neki funkcije $f_i, g_i$, $i \in \{1, 2\}$. V navodilih naloge je bila napaka in je bilo magnetno polje v obliki
+- Analiza napake polja: Napisano imam tudi funkcijo angles2.m. ki naredi isto kot funkcija angles.m, le bistveno hitreje saj ne potrebuje delati podvojenih izračunov. Temelji pa na predpostavki, da ima magnetno polje $B$ ločljive spremenljivke tj. $B(x,y) = (f_1(x)\cdot g_1(y), f_2(x)\cdot g_2(y))$, za neki funkcije $f_i, g_i$, $i \in \{1, 2\}$. V navodilih naloge je bila napaka in je bilo magnetno polje v obliki
 $$B(x,y) =\Big(-\frac{4}{\pi}\sum_{n=1,3,\dots}^\infty \frac{1}{n}e^{-2\pi\frac{y}{\lambda}}\cos(2\pi n\frac{x}{\lambda}), \frac{4}{\pi}\sum_{n=1,3,\dots}^\infty \frac{1}{n}e^{-2\pi \frac{y}{\lambda}}\sin(2\pi n\frac{x}{\lambda})\Big) $$
 kjer je eksponentna funkcija neodvisna od $n$, zato lahko zapišemo $B(x,y) = (f_1(x)\cdot g(y), f_2(x)\cdot g(y)) =  g(y)\cdot(f_1(x), f_2(x))$, kjer so 
 $$f_1(x) =\Big(-\frac{4}{\pi}\sum_{n=1,3,5,\dots}^\infty \frac{1}{n}\cos(2\pi n\frac{x}{\lambda})\Big)$$
@@ -51,6 +51,11 @@ Tukaj je $h(y) = e^{-\frac{2\pi}{\lambda}y}$. Ker $h$ eksponentno pada, bo $h^{n
 Iz grafa je jasno, da je izraz $|h(y) - h^n(y)| < 1$, kar lahko vidimo tudi, če izračunamo limito $n\rightarrow \infty$. Podobno dobimo Avg$(|h(y) - h^n(y)| ) < \frac{1}{2}$. Dobimo $$|B(x,y) - \tilde{B}(x,y)| < \sum_{n=3, 5, \dots}^\infty \frac{1}{n}$$ oz.
 $$|B(x,y) - \tilde{B}(x,y)| \approx \frac{1}{2}\sum_{n=3, 5, \dots}^\infty \frac{1}{n}$$ če gledamo povprečje. V vsakem primeru raste razlika zelo počasi, konkretno  raste z hitrostjo $\log(2n-1)$ ko $n$ raste. Iz tega sklepamo, da tudi za dokaj veliko število ćlenov v vsoti, razlika raste zelo počasi, zato je približek dokaj dober, kar je razvidno iz grafa spodaj, kjer so vhodni podatki isti kot v prvem primeru
 
-picc
+![IMG_0709](https://github.com/UrosKosmac123/Simulacija-tipala-v-magnetnem-polju/assets/64798766/c49e07d9-8d78-409c-b4bb-1fed27fc3c76)
+
 
 Če primerjamo z grafom zgoraj je sama vrednost upornost zelo podbna, glavno odstopanje pa je v obliki grafov (spodnji bolj odstopa od željene sinusne oblike)
+
+![IMG_0708](https://github.com/UrosKosmac123/Simulacija-tipala-v-magnetnem-polju/assets/64798766/960fddf0-5777-4cbf-a6e3-9b9d07f59aa6)
+
+(grafa z višjima minimumoma sta približka). To je kar se tiče samih rezultatov, kar pa je prednost približka, pa je čas izručuna. Za izračun in izris celotne upornosti pri pravem polju je okoli $151$ sekund oz. $2$ minuti in $30$ sekund, med tem ko je čas izračuna in izris približnega polja približno $26$ sekund, kar je $5$x hitreje, zato smiselno obravnavati. 
