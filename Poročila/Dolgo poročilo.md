@@ -11,7 +11,7 @@ Naslednji problem, ki sem se ga lotil je kako izračunati kote, ki so potrebni z
 Kar je bilo potrebno narediti naprej je sledeče: ker je sam analitičen integral precej kompliciran, je ideja, da se ga aproksimira, tako, da žico razdelimo na dovolj majhne odseke $dl$, ter žico obravnavamo kot množico točk, ter uporabimo eno od disktretnih metod (Riemannove vsote, trapezna medota...). To storim v datoteki current_den.m, kjer preko for zank generiram točke na vertikalnih delih žice in horizontalnih delih žice ločeno. Če imamo $N$ prepogibanj in horizontalno dolžino žice $L$, je dolžina horizontalnega delčka enaka $\frac{L}{N-1}$. Dolžina vertikalnih delov je vhodni podatek $H$. Za lažjo predstavo sem napisal program plotW.m za izris točk, ki predstavljajo žico.
 
 ![image](https://github.com/UrosKosmac123/Simulacija-tipala-v-magnetnem-polju/assets/64798766/bc818e71-a579-4a0f-9a00-dd5dff1eb6be)
-(tukaj sem uporabil podatke $x = 0$mm, $h = 0.01$mm, $H = 0.5$mm, $L = 0.2$mm, $N = 10$ in število točk $1000$)
+(tukaj sem uporabil podatke $x=0$ mm, $h = 0.01$ mm, $H = 0.5$ mm, $L = 0.2$ mm, $N = 10$ in število točk $1000$)
 
 Ko sem enkrat generiral točke/razdelil žico na manjše dele, je bilo potrebno izračunati upornosti v vsaki od teh točk. Upor $r$ se izračuna kot 
 
@@ -39,16 +39,16 @@ $$f_1(x) =\Big(-\frac{4}{\pi}\sum_{n=1,3,5,\dots}^\infty \frac{1}{n}\cos(2\pi n\
 $$f_2(x) =\Big(-\frac{4}{\pi}\sum_{n=1,3,5,\dots}^\infty \frac{1}{n}\sin(2\pi n\frac{x}{\lambda})\Big)$$
 $$g(y) = e^{-2\pi\frac{y}{\lambda}}.$$
 Če izračunamo skalarni produkt za tak $B$ in za $\vec{j} = (1,0)$, dobimo
-$$\cos(\phi) = \frac{B(x,y) \cdot \vec{j}}{||B(x,y)||\cdot ||\vec{j}||} = \frac{g(y)\cdot(f_1(x), f_2(x)) \cdot (1,0)}{||g(y)\cdot(f_1(x), f_2(x))||} = \frac{g(y)\cdot f_1(x)}{||g(y)\cdot(f_1(x), f_2(x))||} = $$
+$$\cos(\phi) = \frac{B(x,y) \cdot \vec{j}}{||B(x,y)||\cdot ||\vec{j}||} = \frac{g(y)\cdot(f_1(x), f_2(x)) \cdot (1,0)}{||g(y)\cdot(f_1(x), f_2(x))||} = \frac{g(y)\cdot f_1(x)}{||g(y)\cdot(f_1(x), f_2(x))||} =$$
 ker je $g$ pozitivna krajšamo
-$$ =\frac{f_1(x)}{||(f_1(x), f_2(x))||} = f(x).$$
+$$=\frac{f_1(x)}{||(f_1(x), f_2(x))||} = f(x).$$
 vidimo, da je kot $\phi$ oz. $\cos(\phi) = f(x)$ neodvisna od $y$ koordinate, kar pomeni, da je kot pri vsakem vertikalnem delu žice konstanten, zato je dovolj izaračuna le $N$ kotov (toliko kot je prepogibanj) za vertikalne odseke. Kljub temu, da to ni točen rezultat pa se izkaže, da je precej dober približek. Označimo približek za magnetno polje $\tilde{B}(x,y)$ in pogledamo aboslutno razliko polj (omejimo se le na prvo komponento, druga sledi identično)
 $$|B(x,y) - \tilde{B}(x,y)| \leq \frac{4}{\pi}\sum_{n=3, 5, \dots}^\infty \frac{1}{n}|e^{-2\pi n\frac{y}{\lambda}} - e^{-2\pi\frac{y}{\lambda}}|$$
 kjer upoštevamo trikotniško neenakost, dejstvo, da je  $|\sin(2\pi n\frac{x}{\lambda})| \leq 1$ in za $n = 1$ se člena pokrajšata v vsoti. Pogledamo izraz z absolutno vrednostjo:
 $$|h(y) - h^n(y)| = h(z) |1 - h^{n-1}(y)|, \quad n \geq 3.$$
 Tukaj je $h(y) = e^{-\frac{2\pi}{\lambda}y}$. Ker $h$ eksponentno pada, bo $h^{n-1}(z)$ kvečjemu manjši, zato dovolj da analiziramo $h$. Ker hočemo, da je absolutna vrednost, čim manjša nas zanima, kdaj je $h$ čim manjša. Ker je velikost senzorja fiksna se omejimo na $y \in [h, H + h]$. V tem primeru je $h$ zaradi monotonosti največ $e^{-\frac{2h\pi}{\lambda}}$, kar je za dane podatke približno $0.9691$. To je napaka v najslabšem primeru, lahko pa pogledamo še povprečno vrednost funkcije $h$ na tem intervalu tj. $$\text{Avg} = \frac{1}{H} \int_h^{H + h} e^{-\frac{2\pi}{\lambda}y} dy = \frac{\lambda}{2\pi H} e^{-\frac{2h\pi}{\lambda}}(1 - e^{-\frac{2H\pi}{\lambda}}) = 0.4887... $$ (če izračunamo direktno izraz maximalno vrednost in povprečje, dobimo skoraj identične rezultate). Spodaj je izrisan graf za $n = 3, 5, \dots, 29$
 ![image](https://github.com/UrosKosmac123/Simulacija-tipala-v-magnetnem-polju/assets/64798766/9b54a36b-9330-40c2-b94d-2a7b46616b9b)
-Iz grafa je jasno, da je izraz $|h(y) - h^n(y)| < 1$, kar lahko vidimo tudi, če izračunamo limito $n\rightarrow \infty$. Podobno dobimo Avg$(|h(y) - h^n(y)| ) < \frac{1}{2}$. Dobimo $$|B(x,y) - \tilde{B}(x,y)| < \sum_{n=3, 5, \dots}^\infty \frac{1}{n}$$ oz.
+Iz grafa je jasno, da je izraz $|h(y) - h^n(y)| < 1$, kar lahko vidimo tudi, če izračunamo limito $n\rightarrow \infty$. Podobno dobimo Avg $(|h(y) - h^n(y)| ) < \frac{1}{2}$. Dobimo $$|B(x,y) - \tilde{B}(x,y)| < \sum_{n=3, 5, \dots}^\infty \frac{1}{n}$$ oz.
 $$|B(x,y) - \tilde{B}(x,y)| \approx \frac{1}{2}\sum_{n=3, 5, \dots}^\infty \frac{1}{n}$$ če gledamo povprečje. V vsakem primeru raste razlika zelo počasi, konkretno  raste z hitrostjo $\log(2n-1)$ ko $n$ raste. Iz tega sklepamo, da tudi za dokaj veliko število ćlenov v vsoti, razlika raste zelo počasi, zato je približek dokaj dober, kar je razvidno iz grafa spodaj, kjer so vhodni podatki isti kot v prvem primeru
 
 ![IMG_0709](https://github.com/UrosKosmac123/Simulacija-tipala-v-magnetnem-polju/assets/64798766/c49e07d9-8d78-409c-b4bb-1fed27fc3c76)
