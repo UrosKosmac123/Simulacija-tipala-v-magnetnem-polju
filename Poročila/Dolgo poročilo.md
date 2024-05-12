@@ -1,12 +1,18 @@
 # Dolgo poročilo
 
 ## Opis problema 
-Dan imamo magnetni enkoder, ki se pomika vzdolž izmenično namagnetenega traku. V tem ekoderju se nahaja AMR senzor (anizotropni magnetno uporovni senzor) to je senzor ki se odziva na premik po magnetnem traku, uporablja  pa lastnost magnetizma, ki spremninja vrednost upornosti glede na jakost magnetnega polja. Magnetno polje $\vec{B}$ nad trakom je podano z enačbo $$B(x,y) =\Big(-\frac{4}{\pi}\sum_{n=1,3,\dots}^\infty \frac{1}{n}e^{-2\pi n \frac{y}{\lambda}}\cos(2\pi n\frac{x}{\lambda}), \frac{4}{\pi}\sum_{n=1,3,\dots}^\infty \frac{1}{n}e^{-2\pi n \frac{y}{\lambda}}\sin(2\pi n\frac{x}{\lambda})\Big), $$
-kjer sta $B_0 = 50mT$ in $\lambda = 2mm$. AMR senzor interpretiramo kot tanko žičko, katere upornost je odvisna od kota med tokovno gostoto v žički $\vec{j}$ in magnetnim poljem $\vec{B}$ , ki ga vsiljuje izmenično namagneten trak, in sledi enačbi $$ r(\phi) = r_0 (1 + 0.02\cdot \cos^2(\phi)), $$ kjer je $\phi = \phi(x,y) = \angle(\vec{B}, \vec{j})$ ($\vec{B}$ in $\vec{j}$ sta oba odvisna od $(x, y)$). Skupna upornost AMR upora s centrom na koordinati $x$ izračunamo kot $$R(x) = \int_P r(\phi) \, \, dl, $$ kjer je $y$ fiksen in $P$ žica. Formalno to pomeni, če je 
-$$ P: [0, 1] \rightarrow \mathbb{R}^2 \\
-         t \mapsto P(t) = (x(t), \,y(t))$$
+Dan imamo magnetni enkoder, ki se pomika vzdolž izmenično namagnetenega traku (https://www.youtube.com/watch?v=dP6ai0mlM_E). V tem ekoderju se nahaja AMR senzor (anizotropni magnetno uporovni senzor), to je senzor ki se odziva na premik po magnetnem traku, uporablja  pa lastnost magnetizma, da spremninja vrednost upornosti glede na jakost magnetnega polja. Magnetno polje $\vec{B}$ nad trakom je podano z enačbo $$B(x,y) =\Big(-\frac{4}{\pi}\sum_{n=1,3,\dots}^\infty \frac{1}{n}e^{-2\pi n \frac{y}{\lambda}}\cos(2\pi n\frac{x}{\lambda}), \frac{4}{\pi}\sum_{n=1,3,\dots}^\infty \frac{1}{n}e^{-2\pi n \frac{y}{\lambda}}\sin(2\pi n\frac{x}{\lambda})\Big),$$
+kjer sta $B_0 = 50mT$ in $\lambda = 2mm$. AMR senzor interpretiramo kot tanko žičko, katere upornost je odvisna od kota med tokovno gostoto v žički $\vec{j}$ in magnetnim poljem $\vec{B}$ , ki ga vsiljuje izmenično namagneten trak, in sledi enačbi $$r(\phi) = r_0 (1 + 0.02\cdot \cos^2(\phi)), $$ kjer je $\phi = \phi(x,y) = \angle(\vec{B}, \vec{j})$ ($\vec{B}$ in $\vec{j}$ sta oba odvisna od točke $(x, y)$ ). Skupna upornost AMR upora s centrom na koordinati $x$ izračunamo kot $$R(x) = \int_P r(\phi) dl, $$ kjer je $y$ fiksen in $P$ žica. Formalno to pomeni, če je 
+
+$$
+\begin{aligned}
+&P: [0, 1] \rightarrow \mathbb{R}^2 \\
+&t \mapsto P(t) = (x(t), y(t)) \\
+\end{aligned}
+$$
+
 parametrizacija žice (ali katerekoli druge druge krivulje), definiramo družino translacij te žice kot $P_{x_0}(t) \coloneqq (x_0, 0) + P(t)$ in je  skupna upornost dana kot krivuljni integral
-$$R(x_0) = \int_0^1 P_{x_0}(t) \, \, |\dot{P_{x_0}}(t)|\, dt = \int_0^1 P_{x_0}(t) \, \, |\dot{P}(t)| \,dt$$
+$$R(x_0) = \int_0^1 P_{x_0}(t) |\dot{P_{x_0}}(t)| dt = \int_0^1 P_{x_0}(t) |\dot{P}(t)| dt$$
 
 
 ![image](https://github.com/UrosKosmac123/Simulacija-tipala-v-magnetnem-polju/assets/64798766/ce3ac5a4-6902-4579-aa86-a713d89d01bb)
@@ -28,7 +34,7 @@ Naslednji problem, ki sem se ga lotil je kako izračunati kote, ki so potrebni z
 Kar je bilo potrebno narediti naprej je sledeče: ker je sam analitičen integral precej kompliciran, je ideja, da se ga aproksimira, tako, da žico razdelimo na dovolj majhne odseke $dl$, ter žico obravnavamo kot množico točk, ter uporabimo eno od disktretnih metod (Riemannove vsote, trapezna medota...). To storim v datoteki current_den.m, kjer preko for zank generiram točke na vertikalnih delih žice in horizontalnih delih žice ločeno. Če imamo $N$ prepogibanj in horizontalno dolžino žice $L$, je dolžina horizontalnega delčka enaka $\frac{L}{N-1}$. Dolžina vertikalnih delov je vhodni podatek $H$. Za lažjo predstavo sem napisal program plotW.m za izris točk, ki predstavljajo žico.
 
 ![image](https://github.com/UrosKosmac123/Simulacija-tipala-v-magnetnem-polju/assets/64798766/bc818e71-a579-4a0f-9a00-dd5dff1eb6be)
-(tukaj sem uporabil podatke $x = 0$mm, $h = 0.01$mm, $H = 0.5$mm, $L = 0.2$mm, $N = 10$ in število točk $1000$)
+(tukaj sem uporabil podatke $x = 0$ mm, $h = 0.01$ mm, $H = 0.5$ mm, $L = 0.2$ mm, $N = 10$ in število točk $1000$)
 
 Ko sem enkrat generiral točke/razdelil žico na manjše dele, je bilo potrebno izračunati upornosti v vsaki od teh točk. Upor $r$ se izračuna kot 
 
@@ -64,8 +70,21 @@ vidimo, da je bolje uporabiti krajšo žico. Testni primeri so napisani v datote
 
 >> plotR(h, H, L2, N, B0, r0, lambda, epsilon, n, a, "red")
 ```
-($a$ predstavlja dolžino simetričnega intervala).
+($a$ predstavlja dolžino simetričnega intervala v eni smeri).
 
+## Rezultati
+
+Iz grafov zgoraj je jasno, da je upornost za $L = 0.2$ manjša od upornosti za $L = 0.5$. Izkaže se, da se ta vzorec ponavlja, če pogledamo več različnih dolžin žice $L$. 
+
+![IMG_0728](https://github.com/UrosKosmac123/Simulacija-tipala-v-magnetnem-polju/assets/64798766/0460af0a-919e-4a4c-99eb-a9f034b62824)
+(gledamo grafe pri parametrih $x = 0$ mm, $h = 0.01$ mm, $H = 0.5$ mm, $N = 10$ in število točk $1000$, med tem ko je $L = 0.1, 0.2, ..., 1$) \
+Iz grafa vidimo, da je v splošnem upornost upada, ko se dolžina žice krajša. Če pogledamo na primer še parametra $H$ in $h$:
+![IMG_0729](https://github.com/UrosKosmac123/Simulacija-tipala-v-magnetnem-polju/assets/64798766/ab6f86f1-9512-4bfd-a1a7-b620a672afee)
+(gledamo grafe pri parametrih $x = 0$ mm, $h = 0.01$ mm, $L = 0.2$ mm, $N = 10$ in število točk $1000$, med tem ko je $H = 0.1, 0.2, ..., 1$) \
+![IMG_0730](https://github.com/UrosKosmac123/Simulacija-tipala-v-magnetnem-polju/assets/64798766/31ced6f4-56db-4cee-80dc-ba03c4189943)
+(gledamo grafe pri parametrih $x = 0$ mm, $H = 0.5$ mm, $L = 0.2$ mm, $N = 10$ in število točk $1000$, med tem ko je $h = 0.01$ mm, $0.02$ mm, ..., $0.1$ mm).
+
+V splošnem opazimo, če so parametri po velikosti manjši je tudi upornost $R$ manjša.
 
 ## Analiza napake polja
 Napisano imam tudi funkcijo angles2.m. ki naredi isto kot funkcija angles.m, le bistveno hitreje saj ne potrebuje delati podvojenih izračunov. Temelji pa na predpostavki, da ima magnetno polje $B$ ločljive spremenljivke tj. $B(x,y) = (f_1(x)\cdot g_1(y), f_2(x)\cdot g_2(y))$, za neki funkcije $f_i, g_i$, $i \in \{1, 2\}$. V navodilih naloge je bila napaka in je bilo magnetno polje v obliki
@@ -84,7 +103,7 @@ kjer upoštevamo trikotniško neenakost, dejstvo, da je  $|\sin(2\pi n\frac{x}{\
 $$|h(y) - h^n(y)| = h(z) |1 - h^{n-1}(y)|, \quad n \geq 3.$$
 Tukaj je $h(y) = e^{-\frac{2\pi}{\lambda}y}$. Ker $h$ eksponentno pada, bo $h^{n-1}(z)$ kvečjemu manjši, zato dovolj da analiziramo $h$. Ker hočemo, da je absolutna vrednost, čim manjša nas zanima, kdaj je $h$ čim manjša. Ker je velikost senzorja fiksna se omejimo na $y \in [h, H + h]$. V tem primeru je $h$ zaradi monotonosti največ $e^{-\frac{2h\pi}{\lambda}}$, kar je za dane podatke približno $0.9691$. To je napaka v najslabšem primeru, lahko pa pogledamo še povprečno vrednost funkcije $h$ na tem intervalu tj. $$\text{Avg} = \frac{1}{H} \int_h^{H + h} e^{-\frac{2\pi}{\lambda}y} dy = \frac{\lambda}{2\pi H} e^{-\frac{2h\pi}{\lambda}}(1 - e^{-\frac{2H\pi}{\lambda}}) = 0.4887... $$ (če izračunamo direktno izraz maximalno vrednost in povprečje, dobimo skoraj identične rezultate). Spodaj je izrisan graf za $n = 3, 5, \dots, 29$
 ![image](https://github.com/UrosKosmac123/Simulacija-tipala-v-magnetnem-polju/assets/64798766/9b54a36b-9330-40c2-b94d-2a7b46616b9b)
-Iz grafa je jasno, da je izraz $|h(y) - h^n(y)| < 1$, kar lahko vidimo tudi, če izračunamo limito $n\rightarrow \infty$. Podobno dobimo Avg$(|h(y) - h^n(y)| ) < \frac{1}{2}$. Dobimo $$|B(x,y) - \tilde{B}(x,y)| < \sum_{n=3, 5, \dots}^\infty \frac{1}{n}$$ oz.
+Iz grafa je jasno, da je izraz $|h(y) - h^n(y)| < 1$, kar lahko vidimo tudi, če izračunamo limito $n\rightarrow \infty$. Podobno dobimo $\text{Avg}(|h(y) - h^n(y)| ) < \frac{1}{2}$. Dobimo $$|B(x,y) - \tilde{B}(x,y)| < \sum_{n=3, 5, \dots}^\infty \frac{1}{n}$$ oz.
 $$|B(x,y) - \tilde{B}(x,y)| \approx \frac{1}{2}\sum_{n=3, 5, \dots}^\infty \frac{1}{n}$$ če gledamo povprečje. V vsakem primeru raste razlika zelo počasi, konkretno  raste z hitrostjo $\log(2n-1)$ ko $n$ raste. Iz tega sklepamo, da tudi za dokaj veliko število ćlenov v vsoti, razlika raste zelo počasi, zato je približek dokaj dober, kar je razvidno iz grafa spodaj, kjer so vhodni podatki isti kot v prvem primeru
 
 ![IMG_0726](https://github.com/UrosKosmac123/Simulacija-tipala-v-magnetnem-polju/assets/64798766/fba6ac4e-93bc-4c2c-8b4e-56ba75bdc86a)
@@ -94,4 +113,4 @@ $$|B(x,y) - \tilde{B}(x,y)| \approx \frac{1}{2}\sum_{n=3, 5, \dots}^\infty \frac
 
 ![IMG_0721](https://github.com/UrosKosmac123/Simulacija-tipala-v-magnetnem-polju/assets/64798766/f5ddcab5-c394-4bd7-b9ae-c8dd1b99e9e3)
 
-(grafa z višjima minimumoma sta približka). To je kar se tiče samih rezultatov, kar pa je prednost približka, pa je čas izručuna. Za izračun in izris celotne upornosti pri pravem polju je okoli $151$ sekund oz. $2$ minuti in $30$ sekund, med tem ko je čas izračuna in izris približnega polja približno $26$ sekund, kar je $5$x hitreje, zato smiselno obravnavati. 
+(grafa z višjima minimumoma sta približka). To je kar se tiče samih rezultatov, kar pa je prednost približka, pa je čas izručuna. Za izračun in izris celotne upornosti pri pravem polju je okoli $151$ sekund oz. $2$ minuti in $30$ sekund, med tem ko je čas izračuna in izris približnega polja približno $26$ sekund, kar je $5\text{x}$ hitreje, zato smiselno obravnavati. 
